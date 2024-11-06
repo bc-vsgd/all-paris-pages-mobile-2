@@ -58,6 +58,7 @@ const SpotComp = ({ component, result }) => {
   const remainingKeys = Object.keys(result).filter(
     (key) => !notDisplayedKeys.has(key)
   );
+  console.log(remainingKeys);
 
   const translatedKeys = {
     name: "Nom",

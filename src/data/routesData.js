@@ -25,6 +25,20 @@ const routesData = [
           "objectid",
         ],
       },
+      {
+        title: "Points d'intérêt balade (AEV)",
+        component: "",
+        path: "/poi-walks",
+        url: "https://data.iledefrance.fr/api/explore/v2.1/catalog/datasets/points_d_interet_balade",
+        result: {},
+        coords: ["geom_x_y.lat", "geom_x_y.lon"],
+        fixedDisplayed: ["nom"],
+
+        img: [""],
+        firstDisplayed: ["nom_b"],
+        address: [""],
+        notDisplayed: ["geom_x_y", "geom", "num", "id_promena"],
+      },
     ],
   },
 ];
