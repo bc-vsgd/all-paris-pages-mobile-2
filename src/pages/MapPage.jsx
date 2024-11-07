@@ -4,7 +4,7 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import SpotComp from "../components/SpotComp";
 
-const MapPage = ({ component }) => {
+const MapPage = ({ component, parentLink }) => {
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -38,12 +38,23 @@ const MapPage = ({ component }) => {
 
   return (
     <div>
-      <h1>Map Page for {component.title}</h1>
-      <p>Path: {component.path}</p>
-      <p>
-        This is the page where the map will be displayed for {component.title}.
-      </p>
-      <p>Number of results: {results.length}</p>
+      <a href={parentLink}>Retour</a>
+      <h3>
+        {component.title} ({results.length})
+      </h3>
+      {component.comment !== undefined && (
+        <p>
+          {component.comment.charAt(0).toUpperCase() +
+            component.comment.slice(1)}
+        </p>
+      )}
+      <a
+        href={`${component.url}/records`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Lien vers le jeu de données
+      </a>
       <MapContainer
         center={[48.8566, 2.3522]}
         zoom={12}
@@ -57,7 +68,6 @@ const MapPage = ({ component }) => {
           <SpotComp key={index} component={component} result={result} />
         ))}
       </MapContainer>
-      <div></div>
     </div>
   );
 };

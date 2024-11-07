@@ -47,9 +47,14 @@ const SpotComp = ({ component, result }) => {
   const firstDisplayedValues = component.firstDisplayed
     .map((keyPath) => {
       const keys = keyPath.split(".");
-      return getNestedValue(result, keys);
+      return { key: keyPath, value: getNestedValue(result, keys) };
     })
-    .filter((value) => value !== undefined);
+    .filter(
+      (item) =>
+        item.value !== undefined &&
+        item.value !== null &&
+        (!Array.isArray(item.value) || item.value.length > 0)
+    );
 
   const addressValues = component.address
     .map((keyPath) => {
@@ -66,10 +71,16 @@ const SpotComp = ({ component, result }) => {
     ...component.address,
     ...component.notDisplayed,
   ]);
-  const remainingKeys = Object.keys(result).filter(
-    (key) => !notDisplayedKeys.has(key)
-  );
-  // console.log(remainingKeys);
+
+  const remainingKeys = Object.keys(result)
+    .filter((key) => !notDisplayedKeys.has(key))
+    .map((key) => ({ key, value: result[key] }))
+    .filter(
+      (item) =>
+        item.value !== undefined &&
+        item.value !== null &&
+        (!Array.isArray(item.value) || item.value.length > 0)
+    );
 
   const renderPopupContent = () => (
     <Popup>
@@ -92,18 +103,25 @@ const SpotComp = ({ component, result }) => {
             }}
           />
         ))}
-        {firstDisplayedValues.length > 0 && (
-          <div style={{ marginTop: "10px" }}>
-            <strong>{firstDisplayedValues.join(" ")}</strong>
-          </div>
-        )}
         {addressValues.length > 0 && (
           <div style={{ marginTop: "10px" }}>{addressValues.join(" ")}</div>
         )}
-        {remainingKeys.length > 0 &&
-          remainingKeys.map((key, index) => (
+        {firstDisplayedValues.length > 0 &&
+          firstDisplayedValues.map((item, index) => (
             <div key={index} style={{ marginTop: "10px" }}>
-              <strong>{key}:</strong> {result[key]}
+              <strong>{item.key}:</strong>{" "}
+              {Array.isArray(item.value)
+                ? item.value.map((val, i) => <div key={i}>{val}</div>)
+                : item.value}
+            </div>
+          ))}
+        {remainingKeys.length > 0 &&
+          remainingKeys.map((item, index) => (
+            <div key={index} style={{ marginTop: "10px" }}>
+              <strong>{item.key}:</strong>{" "}
+              {Array.isArray(item.value)
+                ? item.value.map((val, i) => <div key={i}>{val}</div>)
+                : item.value}
             </div>
           ))}
       </Box>

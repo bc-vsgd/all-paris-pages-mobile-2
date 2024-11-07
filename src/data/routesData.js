@@ -47,7 +47,7 @@ const routesData = [
       },
       {
         title: "Maisons des illustres en Île-de-France",
-        coment: "origine: Ministère de la Culture",
+        comment: "origine: Ministère de la Culture",
         path: "/houses-of-famous",
         url: "https://data.iledefrance.fr/api/explore/v2.1/catalog/datasets/maisons-des-illustres",
         featureIsPoint: true,

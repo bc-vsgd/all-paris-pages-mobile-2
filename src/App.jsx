@@ -24,7 +24,9 @@ const App = () => {
             <Route
               key={`${route.path}-${index}`}
               path={component.path}
-              element={<MapPage component={component} />}
+              element={
+                <MapPage component={component} parentLink={route.path} />
+              }
             />
           ))
         )}
